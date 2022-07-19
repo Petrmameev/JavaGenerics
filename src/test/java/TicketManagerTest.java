@@ -56,5 +56,32 @@ public class TicketManagerTest {
         Arrays.sort(actual);
         Assertions.assertArrayEquals(expected, actual);
     }
+    @Test
+    public void shouldRemoveTicketById(){
+        TicketManager manager = new TicketManager(new TicketRepository());
+        manager.addTicket(ticket1);
+        manager.addTicket(ticket2);
+        manager.addTicket(ticket3);
+        manager.addTicket(ticket4);
+        manager.addTicket(ticket5);
+        manager.addTicket(ticket6);
+        manager.removeTicketById(5);
+        Ticket[] expected = {ticket1, ticket2, ticket4, ticket5, ticket6};
+        Ticket[] actual = manager.getTicket();
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void shouldTryToRemoveTicketFromRepositoryIfIdNotHave(){
+        TicketManager manager = new TicketManager(new TicketRepository());
+        manager.addTicket(ticket1);
+        manager.addTicket(ticket2);
+        manager.addTicket(ticket3);
+        manager.addTicket(ticket4);
+        manager.addTicket(ticket5);
+        Assertions.assertThrows(NotFoundException.class, () ->{
+            manager.removeTicketById(6);
+        });
+    }
+
 
 }
